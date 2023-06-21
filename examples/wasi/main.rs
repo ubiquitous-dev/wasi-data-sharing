@@ -11,17 +11,22 @@ use crate::wire::Output;
 mod wire;
 
 fn main() -> Result<()> {
+
+    // Set up wasmtime
     let engine = Engine::default();
     let mut linker = Linker::new(&engine);
     wasmtime_wasi::add_to_linker(&mut linker, |s| s)?;
 
+    // Set up wasi
     let wasi = WasiCtxBuilder::new()
         .inherit_stdout()
         .inherit_stderr()
         .build();
 
-    let module = Module::from_file(&engine, "target/wasm32-wasi/debug/wasi-demo.wasm")?;
+    // Load the wasm file
+    let module = Module::from_file(&engine, "target/wasm32-wasi/release/wasi-data-sharing.wasm")?;
 
+    // Create the store
     let mut store = Store::new(&engine, wasi);
     let memory_ty = MemoryType::new(1, None);
     Memory::new(&mut store, memory_ty)?;
