@@ -20,7 +20,7 @@ fn main() -> Result<()> {
         .inherit_stderr()
         .build();
 
-    let module = Module::from_file(&engine, "target/wasm32-wasi/debug/wasi-demo.wasm")?;
+    let module = Module::from_file(&engine, "target/wasm32-wasi/release/wasi-data-sharing.wasm")?;
 
     let mut store = Store::new(&engine, wasi);
     let memory_ty = MemoryType::new(1, None);
